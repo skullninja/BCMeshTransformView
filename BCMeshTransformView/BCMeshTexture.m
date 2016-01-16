@@ -52,19 +52,19 @@
     
     UIGraphicsPushContext(context);
     
-    [view drawViewHierarchyInRect:view.layer.bounds afterScreenUpdates:NO];
+    [view drawViewHierarchyInRect:view.layer.bounds afterScreenUpdates:YES];
     
     UIGraphicsPopContext();
-
-
+    
+    
     CGContextRelease(context);
     CGColorSpaceRelease(colorSpace);
     
-
+    
     glBindTexture(GL_TEXTURE_2D, _texture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texturePixelBuffer);
     glBindTexture(GL_TEXTURE_2D, 0);
-
+    
     free(texturePixelBuffer);
 }
 
