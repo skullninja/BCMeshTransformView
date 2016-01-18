@@ -124,8 +124,7 @@
 {
     [super layoutSubviews];
     
-    self.glkView.frame = self.bounds;
-    self.contentView.bounds = self.bounds;
+    self.glkView.frame = self.contentView.bounds;
 }
 
 #pragma mark - Setters

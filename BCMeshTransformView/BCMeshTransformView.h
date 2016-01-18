@@ -36,4 +36,6 @@
 // Defualts to CATransform3DIdentity.
 @property (nonatomic) CATransform3D supplementaryTransform;
 
+- (void)setNeedsContentRendering;
+
 @end

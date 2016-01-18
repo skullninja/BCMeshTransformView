@@ -52,7 +52,7 @@
     
     UIGraphicsPushContext(context);
     
-    [view drawViewHierarchyInRect:view.layer.bounds afterScreenUpdates:YES];
+    [view drawViewHierarchyInRect:view.layer.bounds afterScreenUpdates:NO];
     
     UIGraphicsPopContext();
     
