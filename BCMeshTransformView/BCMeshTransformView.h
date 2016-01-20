@@ -37,5 +37,6 @@
 @property (nonatomic) CATransform3D supplementaryTransform;
 
 - (void)setNeedsContentRendering;
+- (void)renderContent;
 
 @end
