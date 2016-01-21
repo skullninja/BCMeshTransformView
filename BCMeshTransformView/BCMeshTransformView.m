@@ -188,11 +188,19 @@
     }
     _animation = animation;
 }
+
 - (void)renderContent {
     self.pendingContentRendering = NO;
     [self.texture renderView:self.contentView];
     [self.glkView setNeedsDisplay];
 }
+
+- (void)renderContentWithScreenUpdates {
+    self.pendingContentRendering = NO;
+    [self.texture renderView:self.contentView screenUpdates:YES];
+    [self.glkView setNeedsDisplay];
+}
+
 
 - (void)setNeedsContentRendering
 {

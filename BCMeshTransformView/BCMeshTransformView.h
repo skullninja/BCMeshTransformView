@@ -38,5 +38,6 @@
 
 - (void)setNeedsContentRendering;
 - (void)renderContent;
+- (void)renderContentWithScreenUpdates;
 
 @end

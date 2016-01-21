@@ -14,4 +14,6 @@
 - (void)setupOpenGL;
 - (void)renderView:(UIView *)view;
 
+- (void)renderView:(UIView *)view screenUpdates:(BOOL)screenUpdates;
+
 @end
