@@ -156,6 +156,16 @@
         }
     }
     
+    //HACK: Cursor Hack
+    if (layer.frame.size.width < 5) {
+        if ([layer.animationKeys count] > 0) {
+            //NSLog(@"CURSOR ANIMATED");
+        } else {
+            //NSLog(@"CURSOR");
+            return;
+        }
+    }
+    
     [self.layer bc_recursivelyExecuteBlock:^(CALayer *layer) {
         [layer removeAllAnimations];
     }];
