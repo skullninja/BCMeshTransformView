@@ -379,4 +379,18 @@
     NSLog(@"Warning: do not add a subview directly to BCMeshTransformView. Add it to contentView instead.");
 }
 
+#pragma mark - Check for Empty
+
+- (void)setCheckForEmptyView:(BOOL)checkForEmptyView {
+    self.texture.checkForEmptyTexture = checkForEmptyView;
+}
+
+- (BOOL)checkForEmptyView {
+    return self.texture.checkForEmptyTexture;
+}
+
+- (BOOL)isViewEmpty {
+    return self.texture.isEmpty;
+}
+
 @end

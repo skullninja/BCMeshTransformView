@@ -9,6 +9,8 @@
 
 @interface BCMeshTexture : NSObject
 
+@property (readonly) BOOL isEmpty;
+@property (nonatomic, assign) BOOL checkForEmptyTexture;
 @property (nonatomic, readonly) GLuint texture;
 
 - (void)setupOpenGL;

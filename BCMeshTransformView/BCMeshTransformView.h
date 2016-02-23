@@ -32,6 +32,11 @@
 @property (nonatomic) float diffuseLightFactor;
 
 
+@property (nonatomic, assign) BOOL checkForEmptyView;
+
+@property (readonly) BOOL isViewEmpty;
+
+
 // Supplementary transform applied to mesh vertices. Can be used to apply perspective transform.
 // Defualts to CATransform3DIdentity.
 @property (nonatomic) CATransform3D supplementaryTransform;

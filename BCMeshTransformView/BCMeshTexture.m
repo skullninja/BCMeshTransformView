@@ -10,7 +10,30 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 
+typedef struct
+{
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+    uint8_t alpha;
+} MyPixel_T;
+
+@interface BCMeshTexture ()
+@property (assign) BOOL isEmpty;
+@end
+
 @implementation BCMeshTexture
+
+@synthesize isEmpty = _isEmpty;
+@synthesize checkForEmptyTexture = _checkForEmptyTexture;
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.checkForEmptyTexture = NO;
+    }
+    return self;
+}
 
 - (void)setupOpenGL
 {
@@ -56,6 +79,26 @@
     
     [view drawViewHierarchyInRect:view.layer.bounds afterScreenUpdates:screenUpdates];
     
+    if (self.checkForEmptyTexture) {
+        //Get pixel data for the image
+        MyPixel_T *pixels = CGBitmapContextGetData(context);
+        size_t pixelCount = width * height;
+        self.isEmpty = YES;
+        for(size_t i = 0; i < pixelCount; i++)
+        {
+            MyPixel_T p = pixels[i];
+            //Your definition of what's blank may differ from mine
+            if(p.red > 0 || p.green > 0 || p.blue > 0 || p.alpha > 0) {
+                self.isEmpty = NO;
+                break;
+            }
+        }
+        
+        NSLog(@"EMPTY BUFFER: %@", self.isEmpty ? @"YES" : @"NO");
+    } else {
+        self.isEmpty = NO;
+    }
+    
     UIGraphicsPopContext();
     
     
@@ -68,6 +111,15 @@
     glBindTexture(GL_TEXTURE_2D, 0);
     
     free(texturePixelBuffer);
+}
+
+- (void)setCheckForEmptyTexture:(BOOL)checkForEmptyTexture {
+    _checkForEmptyTexture = checkForEmptyTexture;
+    self.isEmpty = YES;
+}
+
+- (BOOL)checkForEmptyTexture {
+    return _checkForEmptyTexture;
 }
 
 @end
