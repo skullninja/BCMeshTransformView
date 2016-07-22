@@ -124,7 +124,8 @@
 {
     [super layoutSubviews];
     
-    self.glkView.frame = self.contentView.bounds;
+    self.glkView.frame = self.bounds;
+    self.contentView.bounds = self.bounds;
 }
 
 #pragma mark - Setters
@@ -189,30 +190,16 @@
     _animation = animation;
 }
 
-- (void)renderContent {
-    self.pendingContentRendering = NO;
-    [self.texture renderView:self.contentView];
-    [self.glkView setNeedsDisplay];
-}
-
-- (void)renderContentWithScreenUpdates {
-    self.pendingContentRendering = NO;
-    [self.texture renderView:self.contentView screenUpdates:YES];
-    [self.glkView setNeedsDisplay];
-}
-
-
 - (void)setNeedsContentRendering
 {
-    if (self.hidden) return;
+    
     if (self.pendingContentRendering == NO) {
         // next run loop tick
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0)), dispatch_get_main_queue(), ^{
-            //NSLog(@"[%li] PERFORMING RENDER", self.tag);
-            if (self.hidden) return;
-            if (self.pendingContentRendering == NO) return;
+    
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.texture renderView:self.contentView];
             [self.glkView setNeedsDisplay];
+            
             self.pendingContentRendering = NO;
         });
         
@@ -377,20 +364,6 @@
 {
     [super addSubview:view];
     NSLog(@"Warning: do not add a subview directly to BCMeshTransformView. Add it to contentView instead.");
-}
-
-#pragma mark - Check for Empty
-
-- (void)setCheckForEmptyView:(BOOL)checkForEmptyView {
-    self.texture.checkForEmptyTexture = checkForEmptyView;
-}
-
-- (BOOL)checkForEmptyView {
-    return self.texture.checkForEmptyTexture;
-}
-
-- (BOOL)isViewEmpty {
-    return self.texture.isEmpty;
 }
 
 @end
