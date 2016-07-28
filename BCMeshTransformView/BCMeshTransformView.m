@@ -36,6 +36,7 @@
 @property (nonatomic, strong) UIView *dummyAnimationView;
 
 @property (nonatomic) BOOL pendingContentRendering;
+@property (nonatomic, copy, nullable) void (^contentRenderingCallback)();
 
 @end
 
@@ -207,6 +208,15 @@
     }
 }
 
+- (void)renderContentWithCallback:(void (^)())callback {
+    self.pendingContentRendering = NO;
+    self.contentRenderingCallback = callback;
+    [self.texture renderView:self.contentView screenUpdates:NO];
+    [self.glkView setNeedsDisplay];
+    self.contentRenderingCallback();
+    self.contentRenderingCallback = nil;
+}
+
 #pragma mark - Hit Testing
 
 // We're cheating on the view hierarchy, telling it that contentView is not clipped by wrapper view
@@ -286,6 +296,11 @@
     glBindTexture(GL_TEXTURE_2D, 0);
     glUseProgram(0);
     glBindVertexArrayOES(0);
+    
+    if (self.contentRenderingCallback) {
+        self.contentRenderingCallback();
+        self.contentRenderingCallback = nil;
+    }
 }
 
 #pragma mark - Geometry

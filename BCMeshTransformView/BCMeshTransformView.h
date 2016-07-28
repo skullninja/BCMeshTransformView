@@ -38,5 +38,6 @@
 
 
 - (void)setNeedsContentRendering;
+- (void)renderContentWithCallback:(void (^)())callback;
 
 @end

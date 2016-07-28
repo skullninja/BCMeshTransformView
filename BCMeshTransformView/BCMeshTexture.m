@@ -32,10 +32,12 @@
     }
 }
 
+- (void)renderView:(UIView *)view {
+    [self renderView:view screenUpdates:NO];
+}
 
-
-- (void)renderView:(UIView *)view
-{
+- (void)renderView:(UIView *)view screenUpdates:(BOOL)screenUpdates {
+    
     const CGFloat Scale = [UIScreen mainScreen].scale;
     
     GLsizei width = view.layer.bounds.size.width * Scale;
@@ -52,7 +54,7 @@
     
     UIGraphicsPushContext(context);
     
-    [view drawViewHierarchyInRect:view.layer.bounds afterScreenUpdates:NO];
+    [view drawViewHierarchyInRect:view.layer.bounds afterScreenUpdates:screenUpdates];
     
     UIGraphicsPopContext();
 
