@@ -211,7 +211,7 @@
 - (void)renderContentWithCallback:(void (^)())callback {
     self.pendingContentRendering = NO;
     self.contentRenderingCallback = callback;
-    [self.texture renderView:self.contentView screenUpdates:NO];
+    [self.texture renderView:self.contentView screenUpdates:YES];
     [self.glkView setNeedsDisplay];
     self.contentRenderingCallback();
     self.contentRenderingCallback = nil;
