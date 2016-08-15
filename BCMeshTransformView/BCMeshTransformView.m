@@ -213,7 +213,9 @@
     self.contentRenderingCallback = callback;
     [self.texture renderView:self.contentView screenUpdates:YES];
     [self.glkView setNeedsDisplay];
-    self.contentRenderingCallback();
+    if (self.contentRenderingCallback) {
+        self.contentRenderingCallback();
+    }
     self.contentRenderingCallback = nil;
 }
 
