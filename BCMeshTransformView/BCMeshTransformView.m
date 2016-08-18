@@ -79,6 +79,7 @@
     
     _glkView = [[GLKView alloc] initWithFrame:self.bounds context:[BCMeshTransformView renderingContext]];
     _glkView.delegate = self;
+    _glkView.enableSetNeedsDisplay = YES;
     _glkView.drawableDepthFormat = GLKViewDrawableDepthFormat16;
     _glkView.opaque = NO;
     
