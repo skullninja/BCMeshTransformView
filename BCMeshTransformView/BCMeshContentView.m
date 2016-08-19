@@ -160,6 +160,10 @@
         [layer removeAllAnimations];
     }];
     
+#ifdef DEBUG
+    NSLog(@"OBSERVED CHANGE: %@", keyPath ?: @"Unknown");
+#endif
+    
     if (self.changeBlock) {
         self.changeBlock();
     }

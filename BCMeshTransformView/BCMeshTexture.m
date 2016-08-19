@@ -54,6 +54,10 @@
     
     UIGraphicsPushContext(context);
     
+#ifdef DEBUG
+    NSLog(@"RENDERING: SCREEN UPDATES:%@", screenUpdates ? @"YES" : @"NO");
+#endif
+    
     [view drawViewHierarchyInRect:view.layer.bounds afterScreenUpdates:screenUpdates];
     
     UIGraphicsPopContext();

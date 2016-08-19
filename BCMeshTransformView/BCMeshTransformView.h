@@ -36,6 +36,8 @@
 // Defualts to CATransform3DIdentity.
 @property (nonatomic) CATransform3D supplementaryTransform;
 
+@property (readonly) BOOL pendingContentRendering;
+
 
 - (void)setNeedsContentRendering;
 - (void)renderContentWithCallback:(void (^)())callback;

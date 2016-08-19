@@ -36,7 +36,6 @@
 @property (nonatomic, strong) UIView *dummyAnimationView;
 
 @property (nonatomic) BOOL pendingContentRendering;
-@property (nonatomic, copy, nullable) void (^contentRenderingCallback)();
 
 @end
 
@@ -199,10 +198,10 @@
         // next run loop tick
     
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.pendingContentRendering = NO;
             [self.texture renderView:self.contentView];
             [self.glkView setNeedsDisplay];
             
-            self.pendingContentRendering = NO;
         });
         
         self.pendingContentRendering = YES;
@@ -210,14 +209,17 @@
 }
 
 - (void)renderContentWithCallback:(void (^)())callback {
-    self.pendingContentRendering = NO;
-    self.contentRenderingCallback = callback;
-    [self.texture renderView:self.contentView screenUpdates:YES];
-    [self.glkView setNeedsDisplay];
-    if (self.contentRenderingCallback) {
-        self.contentRenderingCallback();
-    }
-    self.contentRenderingCallback = nil;
+#ifdef DEBUG
+    NSLog(@"EXPLICIT RENDER");
+#endif
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.pendingContentRendering = NO;
+        [self.texture renderView:self.contentView];
+        [self.glkView setNeedsDisplay];
+        if (callback) {
+            callback();
+        }
+    });
 }
 
 #pragma mark - Hit Testing
@@ -300,10 +302,7 @@
     glUseProgram(0);
     glBindVertexArrayOES(0);
     
-    if (self.contentRenderingCallback) {
-        self.contentRenderingCallback();
-        self.contentRenderingCallback = nil;
-    }
+    NSLog(@"DID DRAW IN RECT");
 }
 
 #pragma mark - Geometry
